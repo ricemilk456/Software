@@ -31,7 +31,7 @@ class JoyMapper(object):
         self.pub_anti_instagram = rospy.Publisher("anti_instagram_node/click",BoolStamped, queue_size=1)
         self.pub_e_stop = rospy.Publisher("wheels_driver_node/emergency_stop",BoolStamped,queue_size=1)
         self.pub_avoidance = rospy.Publisher("~start_avoidance",BoolStamped,queue_size=1)
-
+#        self.pub_change_lane = rospy.Publisher("~good_yellow",BoolStamped,queue_size=1)  #added in summer school
         # Subscriptions
         self.sub_joy_ = rospy.Subscriber("joy", Joy, self.cbJoy, queue_size=1)
         
@@ -121,6 +121,18 @@ class JoyMapper(object):
             avoidance_msg.header.stamp = self.joy.header.stamp
             avoidance_msg.data = True 
             self.pub_avoidance.publish(avoidance_msg)
+#        elif (joy_msg.buttons[0] == 1): #push A joystick button 
+#            change_lane_msg = BoolStamped()
+#            rospy.loginfo('start lane following with Yellow mode')
+#            change_lane_msg.header.stamp = self.joy.header.stamp
+#            change_lane_msg.data = True 
+#            self.pub_change_lane.publish(change_lane_msg)
+#        elif (joy_msg.buttons[1] == 1): #push B joystick button 
+#            change_lane_msg = BoolStamped()
+#            rospy.loginfo('start lane following with Blue mode')
+#            change_lane_msg.header.stamp = self.joy.header.stamp
+#            change_lane_msg.data = False
+#            self.pub_change_lane.publish(change_lane_msg)
 
         else:
             some_active = sum(joy_msg.buttons) > 0

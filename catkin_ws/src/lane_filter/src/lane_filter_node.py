@@ -4,7 +4,7 @@ import numpy as np
 from cv_bridge import CvBridge, CvBridgeError
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float32
-from duckietown_msgs.msg import SegmentList, Segment, Pixel, LanePose, BoolStamped, Twist2DStamped
+from duckietown_msgs.msg import SegmentList, Segment, Pixel, LanePose, BoolStamped, Twist2DStamped, #FSMState
 from scipy.stats import multivariate_normal, entropy
 from scipy.ndimage.filters import gaussian_filter
 from math import floor, atan2, pi, cos, sin, sqrt
@@ -32,7 +32,8 @@ For more info on algorithm and parameters please refer to the google doc:
         self.node_name = "Lane Filter"
         self.active = True
         self.updateParams(None)
-        
+#        self.fsm_state = None   # set fsm state used summer school
+
         self.d,self.phi = np.mgrid[self.d_min:self.d_max:self.delta_d,self.phi_min:self.phi_max:self.delta_phi]
         self.beliefRV=np.empty(self.d.shape)
         self.initializeBelief()
@@ -57,7 +58,7 @@ For more info on algorithm and parameters please refer to the google doc:
         if self.use_propagation:
             self.sub_velocity = rospy.Subscriber("~velocity", Twist2DStamped, self.updateVelocity)
         self.sub = rospy.Subscriber("~segment_list", SegmentList, self.processSegments, queue_size=1)
-
+#        self.sub_fsm_mode = rospy.Subscriber("fsm_node/mode", FSMState, self.cbFSM_Mode, queue_size=1)  # using in summer school
         # Publishers
         self.pub_lane_pose  = rospy.Publisher("~lane_pose", LanePose, queue_size=1)
         self.pub_belief_img = rospy.Publisher("~belief_img", Image, queue_size=1)
@@ -68,6 +69,8 @@ For more info on algorithm and parameters please refer to the google doc:
 
         self.timer = rospy.Timer(rospy.Duration.from_sec(1.0), self.updateParams)
 
+#    def cbFSM_Mode(self, fsm_msg):  #for using fsm
+#        self.fsm_state = fsm_msg.state
 
     def updateParams(self, event):
         self.mean_0 = [rospy.get_param("~mean_d_0",0) , rospy.get_param("~mean_phi_0",0)]
@@ -120,10 +123,15 @@ For more info on algorithm and parameters please refer to the google doc:
         measurement_likelihood = np.zeros(self.d.shape)
 
         for segment in segment_list_msg.segments:
-            if segment.color != segment.WHITE and segment.color != segment.YELLOW:
-                continue
+#            if self.fsm_state == "YELLOW_FOLLOWING": #only follow one color
+            if segment.color != segment.WHITE  and segment.color != segment.YELLOW:
+                    continue
+#            elif self.fsm_state == "BLUE_FOLLOWING":
+#                print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+#                if segment.color != segment.WHITE:
+#                    continue
             if segment.points[0].x < 0 or segment.points[1].x < 0:
-                continue
+                    continue
 
             d_i,phi_i,l_i = self.generateVote(segment)
             if d_i > self.d_max or d_i < self.d_min or phi_i < self.phi_min or phi_i>self.phi_max:

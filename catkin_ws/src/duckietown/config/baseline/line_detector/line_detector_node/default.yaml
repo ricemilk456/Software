@@ -13,8 +13,8 @@ detector:
       hough_min_line_length: 3
       hough_max_line_gap:    1
      
-      hsv_white1:  [0,0,150]
-      hsv_white2:  [180,60,255]
+      hsv_white1:  [0,0,150]  # blue1 is [100,50,150]
+      hsv_white2:  [180,100,255]  # blue2 is [150,255,255]
       hsv_yellow1: [25,140,100]
       hsv_yellow2: [45,255,255]
       hsv_red1:    [0,140,100]
