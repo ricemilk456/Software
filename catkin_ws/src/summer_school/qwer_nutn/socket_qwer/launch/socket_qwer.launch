@@ -1,0 +1,12 @@
+<launch>
+	<arg name="veh"/>
+	<arg name="config" default="baseline"/>
+	<arg name="param_file_name" default="default" doc="Specify a param file. ex:megaman"/>
+
+    <include file="$(find duckietown)/machines"/>
+	<group ns="$(arg veh)">
+		<node machine="$(arg veh)" name="socket_qwer_node" pkg="socket_qwer" type="socket_qwer_node.py" output="screen" clear_params="true" required="true">
+		</node>
+	</group>
+
+</launch>
