@@ -1,0 +1,6 @@
+<launch>
+	<arg name="veh"/>
+
+	<node ns="$(arg veh)" pkg="socket_qwer" type="socket_qwer_node.py" name="socket_qwer_node" output="screen">
+	</node>
+</launch>
