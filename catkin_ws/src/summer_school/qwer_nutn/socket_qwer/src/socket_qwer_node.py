@@ -19,7 +19,7 @@ class Socket_Qwer(object):
     
     def socket_PhoneCtrl(self):
         #servo = PWM(0x40) #gripper used
-	    #servo.setPWMFreq(60) #gripper used
+        #servo.setPWMFreq(60) #gripper used
         self.motorhat = Adafruit_MotorHAT(addr=0x60)
         self.leftMotor = self.motorhat.getMotor(1)
         self.rightMotor = self.motorhat.getMotor(2)
