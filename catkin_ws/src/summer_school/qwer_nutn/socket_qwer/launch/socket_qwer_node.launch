@@ -11,9 +11,9 @@
 	    </node>
 	    <!-- Remote -->
 		<include unless="$(arg local)" file="$(find duckietown)/machines"/>
-	    <node unless="$(arg local)" machine="$(arg veh)" pkg="$(arg pkg_name)" type="print.py" name="qwer_print" output="screen" clear_params="true" required="true">
+	    <node unless="$(arg local)" machine="$(arg veh)" pkg="$(arg pkg_name)" type="qwer.py" name="qwer_player" output="screen" clear_params="true" required="true">
 	    </node>
-	</group>
+a	</group>
 
 	<!-- Publication -->
 	<!-- ~wheels_control: duckietown_msgs/WheelsCmd. Wheels command for duckiebot. -->
