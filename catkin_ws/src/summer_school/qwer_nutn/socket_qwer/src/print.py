@@ -9,7 +9,7 @@ class qwer_print(object):
         self.music()
 
     def music(self):
-        sound = '1234.mp3'
+	sound = 'Desp.ogg'
         pygame.mixer.init()
         pygame.mixer.music.load(sound)
         pygame.mixer.music.set_volume(0.05)  #The value argument is between 0.0 and 1.0.
