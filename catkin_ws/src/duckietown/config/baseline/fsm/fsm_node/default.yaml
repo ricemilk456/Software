@@ -140,6 +140,8 @@ states:
       - lane_filter_node
       - line_detector_node
       - stop_line_filter_node
+      - apriltag_node #testttttttttttttttttt
+      - decoder_node #testtttttttttttttt
     lights: ["lane_following"]
   LANE_FOLLOWING_AVOID:
     transitions:

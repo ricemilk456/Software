@@ -4,6 +4,7 @@
 #include <boost/foreach.hpp>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseArray.h>
+#include <std_msgs/Int32.h>
 #include <duckietown_msgs/AprilTagDetection.h>
 #include <duckietown_msgs/AprilTagDetectionArray.h>
 #include <duckietown_msgs/Rect.h>
@@ -42,6 +43,7 @@ namespace apriltags_ros{
     switch_sub_ = nh.subscribe("switch",1,&AprilTagDetector::switchCB, this);
     image_pub_ = it_.advertise("tag_detections_image", 1);
     detections_pub_ = nh.advertise<duckietown_msgs::AprilTagDetectionArray>("tag_detections", 1);
+    detections_test_pub_ = nh.advertise<std_msgs::Int32>("tag_detections_test", 1); //for finding tag id
     proposals_pub_ = nh.advertise<duckietown_msgs::Rects>("quad_proposals", 1);
     image_compress_sub_ = nh.subscribe("/wama/camera_node/image/compressed", 1, &AprilTagDetector::image_compress_Cb, this);
     //crop_image_pub_ = it2_.advertise("crop_image", 1);
@@ -85,12 +87,14 @@ namespace apriltags_ros{
       //cv_crop->header.frame_id = sensor_frame_id_;
     
     duckietown_msgs::AprilTagDetectionArray tag_detection_array;
+    std_msgs::Int32 tag_id;  //debug testttttttttt
     duckietown_msgs::Rects quad_proposal_array;
     geometry_msgs::PoseArray tag_pose_array;
     tag_pose_array.header = cv_ptr->header;
     
     BOOST_FOREACH(AprilTags::TagDetection detection, detections){
       std::map<int, AprilTagDescription>::const_iterator description_itr = descriptions_.find(detection.id);
+      tag_id.data = detection.id;  // tttttttttttttttt
       if(description_itr == descriptions_.end()){
 	ROS_WARN_THROTTLE(10.0, "Found tag: %d, but no description was found for it", detection.id);
 	continue;
@@ -154,6 +158,7 @@ namespace apriltags_ros{
     }
 
     detections_pub_.publish(tag_detection_array);
+    detections_test_pub_.publish(tag_id); //test iddddd
     proposals_pub_.publish(quad_proposal_array);
     pose_pub_.publish(tag_pose_array);
 	image_pub_.publish(cv_crop->toImageMsg());
@@ -196,12 +201,14 @@ namespace apriltags_ros{
       //cv_crop->header.frame_id = sensor_frame_id_;
     
     duckietown_msgs::AprilTagDetectionArray tag_detection_array;
+    std_msgs::Int32 tag_id;  //debug testtttttttttt
     duckietown_msgs::Rects quad_proposal_array;
     geometry_msgs::PoseArray tag_pose_array;
     tag_pose_array.header = cv_ptr->header;
     
     BOOST_FOREACH(AprilTags::TagDetection detection, detections){
       std::map<int, AprilTagDescription>::const_iterator description_itr = descriptions_.find(detection.id);
+      tag_id.data = detection.id; //ttttttttttttttttt
       if(description_itr == descriptions_.end()){
   ROS_WARN_THROTTLE(10.0, "Found tag: %d, but no description was found for it", detection.id);
   continue;
@@ -229,6 +236,7 @@ namespace apriltags_ros{
       tag_detection.id = detection.id;
       tag_detection.size = tag_size;
       tag_detection_array.detections.push_back(tag_detection);
+      //cout<<tag_detection_array.detections[0]; //debug
       tag_pose_array.poses.push_back(tag_pose.pose);
 
       tf::Stamped<tf::Transform> tag_transform;
@@ -265,6 +273,7 @@ namespace apriltags_ros{
     }
 
     detections_pub_.publish(tag_detection_array);
+    detections_test_pub_.publish(tag_id); //test iddddd
     proposals_pub_.publish(quad_proposal_array);
     pose_pub_.publish(tag_pose_array);
     image_pub_.publish(cv_crop->toImageMsg());

@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
-#  python-pygame
 )
 
 ## System dependencies are found with CMake's conventions
@@ -137,11 +136,10 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(socket_qwer_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(socket_qwer_node
-#   ${catkin_LIBRARIES}
-# )
+#  target_link_libraries(socket_qwer_node
+#    ${catkin_LIBRARIES}
+#  )
 
 #############
 ## Install ##

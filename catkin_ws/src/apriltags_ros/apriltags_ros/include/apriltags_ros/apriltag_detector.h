@@ -45,6 +45,7 @@ void switchCB(const duckietown_msgs::BoolStamped::ConstPtr& switch_msg);
   image_transport::Publisher crop_image_pub_;
   ros::Subscriber switch_sub_;
   ros::Publisher detections_pub_;
+  ros::Publisher detections_test_pub_; // test tag id
   ros::Publisher proposals_pub_;
   ros::Publisher pose_pub_;
   ros::Subscriber image_compress_sub_;
