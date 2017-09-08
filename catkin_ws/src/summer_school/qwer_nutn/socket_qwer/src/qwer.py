@@ -33,8 +33,8 @@ class Qwer_Player(object):
         tag_id.data = Tag.data
         rospy.loginfo("Now found Id = %d-------------   and flag = %d" %(tag_id.data, self.flag))
         if tag_id.data == 350 and self.flag == 0:
-            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/Desp.ogg"
-            rospy.loginfo(' ---------Tag Music playing-----------')
+            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/DesGlaneuses.ogg"
+            rospy.loginfo(' ---------Found Tag playing guide vocie-----------')
             e_stop_msg = BoolStamped()
             e_stop_msg.data = True 
             self.pub_e_stop.publish(e_stop_msg)
@@ -42,8 +42,8 @@ class Qwer_Player(object):
             msg.data = 'at def get_apriltag(self,Tag) and tag_id.data = 350'
             self.pub_voice.publish(msg)
         elif tag_id.data == 351 and self.flag == 0:
-            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/nier.ogg"
-            rospy.loginfo(' ---------Tag Music playing----------')
+            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/LAngelus.ogg"
+            rospy.loginfo(' ---------Found Tag playing guide vocie-----------')
             e_stop_msg = BoolStamped()
             e_stop_msg.data = True 
             self.pub_e_stop.publish(e_stop_msg)
@@ -51,8 +51,8 @@ class Qwer_Player(object):
             msg.data = 'at def get_apriltag(self,Tag) and tag_id.data = 351'
             self.pub_voice.publish(msg)
         elif tag_id.data == 352 and self.flag == 0:
-            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/Desp.ogg"
-            rospy.loginfo(' ---------Tag Music playing---------')
+            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/Shepherdess.ogg"
+            rospy.loginfo(' ---------Found Tag playing guide vocie-----------')
             e_stop_msg = BoolStamped()
             e_stop_msg.data = True 
             self.pub_e_stop.publish(e_stop_msg)
@@ -60,8 +60,8 @@ class Qwer_Player(object):
             msg.data = 'at def get_apriltag(self,Tag) and tag_id.data = 352'
             self.pub_voice.publish(msg)
         elif tag_id.data == 353 and self.flag == 0:
-            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/1234.mp3"
-            rospy.loginfo(' ---------Tag Music playing---------')
+            self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/Desp.ogg"
+            rospy.loginfo(' ---------Found Tag playing guide vocie-----------')
             e_stop_msg = BoolStamped()
             e_stop_msg.data = True 
             self.pub_e_stop.publish(e_stop_msg)
@@ -88,9 +88,10 @@ class Qwer_Player(object):
                 rospy.loginfo("[%s]: The Voice stop Released" % (nowstr.data))
         else:
             rospy.loginfo("[%s] ------- sound's location=%s" %(nowstr.data, self.sound))
+            self.n_stop = False #reset the start/pause State
             pygame.mixer.music.load(self.sound)
             pygame.mixer.music.play(0, 0)
-            pygame.mixer.music.set_volume(0.2)  #The value argument is between 0.0 and 1.0
+            pygame.mixer.music.set_volume(0.3)  #The value argument is between 0.0 and 1.0
            # while pygame.mixer.music.get_busy():  #it will play sound until the sound finished
             #    pygame.time.Clock().tick(10)
 
