@@ -25,6 +25,11 @@ class Qwer_Player(object):
         self.sound = ''
         self.n_stop = False
 
+        #Autostart lane_following
+        override_msg = BoolStamped()
+        override_msg.data = False
+        self.pub_joy_override.publish(override_msg)
+
         #Start socket function
         self.socket_Ctrl()
 
@@ -91,7 +96,7 @@ class Qwer_Player(object):
             self.n_stop = False #reset the start/pause State
             pygame.mixer.music.load(self.sound)
             pygame.mixer.music.play(0, 0)
-            pygame.mixer.music.set_volume(0.3)  #The value argument is between 0.0 and 1.0
+            pygame.mixer.music.set_volume(1)  #The value argument is between 0.0 and 1.0
            # while pygame.mixer.music.get_busy():  #it will play sound until the sound finished
             #    pygame.time.Clock().tick(10)
 
@@ -103,12 +108,13 @@ class Qwer_Player(object):
         self.rightMotor = self.motorhat.getMotor(2)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         rospy.loginfo("create socket succ!")
-        sock.settimeout(120)    # if 20s it's no data received. it will interrupt
+        sock.settimeout(1000)    # if 1000s it's no data received. it will interrupt
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)    #addr can reuse
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)    #keep connect
 
         sock.bind(('', 50007))  #(HOST, PORT)
         rospy.loginfo("bind socket succ!")
-        sock.listen(3)    #maximum connect 3 clients
+        sock.listen(2)    #maximum connect 3 clients
         rospy.loginfo("listen success!")
         while True:
             rospy.loginfo("listen for client...")
@@ -156,8 +162,8 @@ class Qwer_Player(object):
                 self.pub_voice.publish(msg)
             elif szBuf == "5\n":
                 rospy.loginfo('stop!!!')
-                self.leftMotor.setSpeed(0)
-                self.rightMotor.setSpeed(0)
+                #self.leftMotor.setSpeed(0)
+                #self.rightMotor.setSpeed(0)
                 e_stop_msg = BoolStamped()
                 e_stop_msg.data = True 
                 self.pub_e_stop.publish(e_stop_msg)
@@ -173,17 +179,17 @@ class Qwer_Player(object):
                 override_msg = BoolStamped()
                 override_msg.data = True
                 self.pub_joy_override.publish(override_msg)
-            elif szBuf == 'UP':
+            elif szBuf == '1':
                 rospy.loginfo("receive from linkit : %s" %(szBuf))
                 e_stop_msg = BoolStamped()
                 e_stop_msg.data = True 
                 self.pub_e_stop.publish(e_stop_msg)
-            elif szBuf == "DOWN":
+            elif szBuf == '2':
                 rospy.loginfo("receive from linkit : %s" %(szBuf))
                 msg = String()
                 msg.data = 'repeat now Giude voice'
                 self.pub_voice.publish(msg)
-            elif szBuf == "LEFT":
+            elif szBuf == '3':
                 rospy.loginfo("receive from linkit : %s" %(szBuf))
                 msg = String()
                 msg.data = 'pause mode'
