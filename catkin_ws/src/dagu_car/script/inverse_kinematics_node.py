@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from duckietown_msgs.msg import WheelsCmdStamped, Twist2DStamped
+from duckietown_msgs.msg import WheelsCmdStamped, Twist2DStamped, BoolStamped
 from duckietown_msgs.srv import SetValueRequest, SetValueResponse, SetValue
 from std_srvs.srv import EmptyRequest, EmptyResponse, Empty
 from numpy import *
@@ -18,6 +18,7 @@ class InverseKinematicsNode(object):
         # Get node name and vehicle name
         self.node_name = rospy.get_name()
         self.veh_name = self.node_name.split("/")[1]        
+        self.switchFile = False  #for qwer socket switch yaml file
 
         # Set parameters using yaml file
         self.readParamFromFile()
@@ -44,8 +45,21 @@ class InverseKinematicsNode(object):
         # Setup the publisher and subscriber
         self.sub_car_cmd = rospy.Subscriber("~car_cmd", Twist2DStamped, self.car_cmd_callback)
         self.pub_wheels_cmd = rospy.Publisher("~wheels_cmd", WheelsCmdStamped, queue_size=1)
+        self.sub_qwer_switch = rospy.Subscriber("joy_mapper_node/switchSpeed", BoolStamped, self.cb_switchParam, queue_size=1) #simple function for switching speed to qwer
         rospy.loginfo("[%s] Initialized.", self.node_name)
         self.printValues()
+
+    def cb_switchParam(self,qwer_msg):
+        # switch speed for qwer
+        self.switchFile = not self.switchFile
+        if self.switchFile is True:
+            qq = SetValue()
+            qq.value = 0.5
+            self.cbSrvSetGain(qq)
+        else:
+            qq = SetValue()
+            qq.value = 1.0
+            self.cbSrvSetGain(qq)
 
     def readParamFromFile(self):
         # Check file existence

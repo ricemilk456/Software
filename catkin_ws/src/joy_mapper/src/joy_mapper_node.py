@@ -18,7 +18,7 @@ class JoyMapper(object):
 
 
         # Setup Parameters
-        self.v_gain = self.setupParam("~speed_gain", 0.41)
+        self.v_gain = self.setupParam("~speed_gain", 0.8)
         self.omega_gain = self.setupParam("~steer_gain", 8.3)
         self.bicycle_kinematics = self.setupParam("~bicycle_kinematics", 0)
         self.steer_angle_gain = self.setupParam("~steer_angle_gain", 1)
@@ -32,6 +32,7 @@ class JoyMapper(object):
         self.pub_e_stop = rospy.Publisher("wheels_driver_node/emergency_stop",BoolStamped,queue_size=1)
         self.pub_avoidance = rospy.Publisher("~start_avoidance",BoolStamped,queue_size=1)
 #        self.pub_change_lane = rospy.Publisher("~good_yellow",BoolStamped,queue_size=1)  #added in summer school
+        self.pub_switch = rospy.Publisher("~switchSpeed",BoolStamped,queue_size=1)
         # Subscriptions
         self.sub_joy_ = rospy.Subscriber("joy", Joy, self.cbJoy, queue_size=1)
         
@@ -123,18 +124,26 @@ class JoyMapper(object):
             avoidance_msg.header.stamp = self.joy.header.stamp
             avoidance_msg.data = True 
             self.pub_avoidance.publish(avoidance_msg)
-#        elif (joy_msg.buttons[0] == 1): #push A joystick button 
+        elif (joy_msg.buttons[0] == 1): #push A joystick button 
 #            change_lane_msg = BoolStamped()
-#            rospy.loginfo('start lane following with Yellow mode')
+            rospy.loginfo('start lane following with Yellow mode')
 #            change_lane_msg.header.stamp = self.joy.header.stamp
 #            change_lane_msg.data = True 
 #            self.pub_change_lane.publish(change_lane_msg)
-#        elif (joy_msg.buttons[1] == 1): #push B joystick button 
+            qwer_msg = BoolStamped()
+            qwer_msg.header.stamp = self.joy.header.stamp
+            qwer_msg.data = True
+            self.pub_switch.publish(qwer_msg)
+        elif (joy_msg.buttons[1] == 1): #push B joystick button 
 #            change_lane_msg = BoolStamped()
-#            rospy.loginfo('start lane following with Blue mode')
+            rospy.loginfo('start lane following with Blue mode')
 #            change_lane_msg.header.stamp = self.joy.header.stamp
 #            change_lane_msg.data = False
 #            self.pub_change_lane.publish(change_lane_msg)
+            qwer_msg = BoolStamped()
+            qwer_msg.header.stamp = self.joy.header.stamp
+            qwer_msg.data = False
+            self.pub_switch.publish(qwer_msg)
 
         else:
             some_active = sum(joy_msg.buttons) > 0

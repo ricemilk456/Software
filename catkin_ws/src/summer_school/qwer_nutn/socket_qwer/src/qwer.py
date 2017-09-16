@@ -19,16 +19,13 @@ class Qwer_Player(object):
         self.pub_voice = rospy.Publisher("~Voice", String, queue_size=1)
         self.sub_voice = rospy.Subscriber("~Voice", String, self.cb_SoundPlayer, queue_size=1)
         self.sub_tag_id = rospy.Subscriber("/qwer/tag_detections_test", Int32, self.get_Apriltag, queue_size=1)
+        self.pub_switch = rospy.Publisher("joy_mapper_node/switchSpeed", BoolStamped, queue_size=1)
 
         #set global variable
         self.flag = 0
         self.sound = ''
         self.n_stop = False
 
-        #Autostart lane_following
-        override_msg = BoolStamped()
-        override_msg.data = False
-        self.pub_joy_override.publish(override_msg)
 
         #Start socket function
         self.socket_Ctrl()
@@ -106,6 +103,12 @@ class Qwer_Player(object):
         self.motorhat = Adafruit_MotorHAT(addr=0x60)
         self.leftMotor = self.motorhat.getMotor(1)
         self.rightMotor = self.motorhat.getMotor(2)
+        #Autostart lane_following
+        rospy.loginfo("[%s] start LANE_FOLLOWING GOOOOOOOO" % (self.node_name))
+        override_msg = BoolStamped()
+        override_msg.data = False
+        self.pub_joy_override.publish(override_msg)
+
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         rospy.loginfo("create socket succ!")
         sock.settimeout(1000)    # if 1000s it's no data received. it will interrupt
@@ -129,10 +132,13 @@ class Qwer_Player(object):
                 #self.rightMotor.setSpeed(120)
                 #self.leftMotor.run(Adafruit_MotorHAT.FORWARD)
                 #self.rightMotor.run(Adafruit_MotorHAT.FORWARD)
-                self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/nier.ogg"
+                #self.sound="/home/ubuntu/duckietown/catkin_ws/src/summer_school/qwer_nutn/socket_qwer/include/socket_qwer/nier.ogg"
                 msg = String()
                 msg.data = 'using app button'
                 self.pub_voice.publish(msg)
+                qwer_msg = BoolStamped()
+                qwer_msg.data = True
+                self.pub_switch.publish(qwer_msg)
             elif szBuf == "2\n":
                 rospy.loginfo("backward")
                 #self.leftMotor.setSpeed(120)
