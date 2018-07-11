@@ -1,0 +1,23 @@
+camera_matrix:
+  cols: 3
+  data: [360.597201949374, 0.0, 306.9729071046785, 0.0, 363.7513435774691, 110.36749620478574,
+    0.0, 0.0, 1.0]
+  rows: 3
+camera_name: hbc/camera_node
+distortion_coefficients:
+  cols: 5
+  data: [-0.2717233404491232, 0.051325234735257186, 0.010848144793046625, 0.0035270909256533887,
+    0.0]
+  rows: 1
+distortion_model: plumb_bob
+image_height: 480
+image_width: 640
+projection_matrix:
+  cols: 4
+  data: [252.94271850585938, 0.0, 305.60816098956275, 0.0, 0.0, 275.2479553222656,
+    86.71015167158203, 0.0, 0.0, 0.0, 1.0, 0.0]
+  rows: 3
+rectification_matrix:
+  cols: 3
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+  rows: 3
