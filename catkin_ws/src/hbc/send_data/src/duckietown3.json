@@ -1,12 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "duckietown-207511",
-  "private_key_id": "6fd862cdbb0a6c60ed9ac26a3fb70250be95965d",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCezkPxRF+7Mhp/\njCgSG42NwzK5uRSpTTrAOCPFvCqXShaqyJsn+bC5G31AsgjDRWh5aDeQDfADpozp\n5Re0Dn+/8zJ+vyHK7/Rc7ETU8xaTumvJhyZg44jK/SQvMz93vBZF3Lvvss8gDAK1\nkj9bldJIeZ65XNZbOO7Q9uInrWzgMR+Xf6pecPo98/bfmdLHQ2sMO/SL+t7OLODK\nNql8bXZwVqo2RsFc8U4tX+qFF0igVshswbpVJezgu9y7Z/ITOvJil9Q5pgyPr/wS\nNUof5SzK4kKvRUnwsn+SFcKX8DK56TVIVyzs/z04K7zaPQ0cCtEERTvV72bkEtyq\niF8cpMDzAgMBAAECggEACW/bdL5p6+9dyL+U8AKIJmj3njbD5g2rVJnhclIsu8HQ\n2AREyBrb6BwclNgfki8RNsm9J4fUf/sJO6r7/hywdcEneoW0JeGdhVoa+waZDF1T\nI24vFyneSqXBXTav6lcYgb1Mw8E98rsT/CM9NZ2RGfJ0PrKoIFKhSnSpWs9A/Y+F\nyLDe/9xPpMTYwijnwp4leCn57OVS7PcsZf4Cfs/ygI/g6ofbkaPrb4PFwAf6W+Z4\nLkgkrFdFrrn1HSoOwOCsMKJ7tzA/zsdm9ijWZpUmSIPgJCJvBSKqcu9XM6w1DkiE\nXZNz94i52W2bd5vLXGJmjr+HbG88HTTVIYSEEceufQKBgQDLILnePALa+Pc8lS1m\nfwMeQpPFgRCp0cbCNqV/TOAie5lxPafaN4C8/CytQkAm7NO8zUt0JNnu6BmZZiDf\nyLqbCNd0JqkHT1D2pkJWlVERQ6QdO0Jk4O4S2ZLTtgGNt6is1auu5XmF/AaAIvr3\nYOMkoq1Ilx7jVYix56fLOj2GxQKBgQDIJCsDy7T7mopQ/B+3i7ukwH2dhD4xjHsQ\niAls6sxg+H5qV9nTn5tKAcJ0p5hc99p3RzneKoQPuCw3Oug5HG1GJBnyhINIKqHj\nsjtJjyTL2SL0g4UBKID58Wr21eBESEDzUymZgcY9t0zqEwnAypXQZL46kaDrYxfd\n5T8QbitkVwKBgHc3fd8w2XwrIvArnbnKUcowyQnh9iW1OTJDYF6Wf/W9FRGhXiJ0\n8Nn6Jz6I45304VCuLNq9xiqxjlS53BF7fgn/5nQFPK9NnfclHUoz2KCJUojVfuI2\nIYRurf4TlFXYtOa7gUfk5q38fNQ3s5P9CVM3JvyztS03xkKj85cTV4kBAoGBAInR\nZhF6EAmF9KMpyolw3mjn6Fg0fUNPclsC4kKvOMe5tgtyrVvtt1hx976uvdufDUA/\nutiCvGe6si/iD5FsQs8fAwMePuzN9qa9z9eqi3MX9dscSdVvV8lFdhu9UW6Ttq4X\n4TiExccv1vYE4B1zI1DaXqgkKgSNOx0gxJmC07yHAoGBAMTTWJmyAfvwGsuTW8Dh\nZP1gJj3HCNvHKe4hIcevQ56uJ64ZGK8znQ8qV807ZDPunGP8O/HrJNj5jHzG9A0t\nX21eM0VKFKgXuhL+BuqhnUN97bAt+FfQKw2MfTs+XJj0AdG0GDwK8q0fFdxRBCz4\nYd+FlhsINFT6sRBv7/xm93+T\n-----END PRIVATE KEY-----\n",
-  "client_email": "duckietown@duckietown-207511.iam.gserviceaccount.com",
-  "client_id": "115844393465347116295",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://accounts.google.com/o/oauth2/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/duckietown%40duckietown-207511.iam.gserviceaccount.com"
-}
+
