@@ -2,6 +2,67 @@
 initial_state: "JOYSTICK_CONTROL"
 
 events: #Maps from subscribing topic to signal ids
+  qrcode_on:
+    topic: "qrcode"
+    msg_type: "BoolStamped"
+    trigger: True
+  qrcode_off:
+    topic: "qrcode"
+    msg_type: "BoolStamped"
+    trigger: False
+  shoot_on:
+    topic: "shoot"
+    msg_type: "BoolStamped"
+    trigger: True
+  send_data_on:
+    topic: "send_data"
+    msg_type: "BoolStamped"
+    trigger: True
+  send_data_off:
+    topic: "send_data"
+    msg_type: "BoolStamped"
+    trigger: False
+  led_on:
+    topic: "led"
+    msg_type: "BoolStamped"
+    trigger: True
+  led_off:
+    topic: "led"
+    msg_type: "BoolStamped"
+    trigger: False
+  lcd_X_on:
+    topic: "lcd_X"
+    msg_type: "BoolStamped"
+    trigger: 'True'
+  lcd_X_off:
+    topic: "lcd_X"
+    msg_type: "BoolStamped"
+    trigger: 'False'
+  lcd_A_on:
+    topic: "lcd_A"
+    msg_type: "BoolStamped"
+    trigger: 'True'
+  lcd_A_off:
+    topic: "lcd_A"
+    msg_type: "BoolStamped"
+    trigger: 'False'
+  lcd_B_on:
+    topic: "lcd_B"
+    msg_type: "BoolStamped"
+    trigger: 'True'
+  lcd_B_off:
+    topic: "lcd_B"
+    msg_type: "BoolStamped"
+    trigger: 'False'
+  lcd_Y_on:
+    topic: "lcd_Y"
+    msg_type: "BoolStamped"
+    trigger: 'True'
+  lcd_Y_off:
+    topic: "lcd_Y"
+    msg_type: "BoolStamped"
+    trigger: 'False'
+
   joystick_override_on: 
     topic: "joy_mapper_node/joystick_override"
     msg_type: "BoolStamped"

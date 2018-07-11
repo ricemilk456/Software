@@ -29,7 +29,7 @@ class CameraNode(object):
         self.res_h = self.setupParam("~res_h",480)
 
         self.image_msg = CompressedImage()
-
+        
         # Setup PiCamera
 
         self.camera = PiCamera()
@@ -47,8 +47,13 @@ class CameraNode(object):
 
         self.has_published = False
         self.pub_img= rospy.Publisher("~image/compressed",CompressedImage,queue_size=1)
-        self.sub_switch_high = rospy.Subscriber("~framerate_high_switch", BoolStamped, self.cbSwitchHigh, queue_size=1)
+        self.sub_switch_high = rospy.Subscriber("~framerate_high_switch", BoolStamped, self.cbSwitchHigh, queue_size=1)   
+        
+        
+        
 
+        
+        
         # Create service (for camera_calibration)
         self.srv_set_camera_info = rospy.Service("~set_camera_info",SetCameraInfo,self.cbSrvSetCameraInfo)
 
@@ -61,7 +66,8 @@ class CameraNode(object):
         self.update_framerate = False
         # Setup timer
         rospy.loginfo("[%s] Initialized." %(self.node_name))
-
+    
+         
     def cbSwitchHigh(self, switch_msg):
         print switch_msg
         if switch_msg.data and self.framerate != self.framerate_high:
@@ -73,21 +79,25 @@ class CameraNode(object):
  
     def startCapturing(self):
         rospy.loginfo("[%s] Start capturing." %(self.node_name))
-        while not self.is_shutdown and not rospy.is_shutdown():
+        while not self.is_shutdown and not rospy.is_shutdown():       
             gen =  self.grabAndPublish(self.stream,self.pub_img)
             try:
-                self.camera.capture_sequence(gen,'jpeg',use_video_port=True,splitter_port=0)
+                self.camera.capture_sequence(gen,'jpeg',use_video_port=True,splitter_port=0,)    #Original: use_video_port=True
             except StopIteration:
                 pass
             print "updating framerate"
             self.camera.framerate = self.framerate
             self.update_framerate=False
-
+        
         self.camera.close()
         rospy.loginfo("[%s] Capture Ended." %(self.node_name))
-
+        
+   
+        
     def grabAndPublish(self,stream,publisher):
-        while not self.update_framerate and not self.is_shutdown and not rospy.is_shutdown(): 
+        while not self.update_framerate and not self.is_shutdown and not rospy.is_shutdown():
+            #self.camera.capture('/home/ubuntu/duckietown/catkin_ws/src/hbc/qrcode/src/qrcode_temp.jpg',use_video_port=True,splitter_port=0)
+            
             yield stream
             # Construct image_msg
             # Grab image from stream
@@ -98,7 +108,7 @@ class CameraNode(object):
             image_msg = CompressedImage()
             image_msg.format = "jpeg"
             image_msg.data = stream_data
-
+    
             image_msg.header.stamp = stamp
             image_msg.header.frame_id = self.frame_id
             publisher.publish(image_msg)
@@ -110,9 +120,9 @@ class CameraNode(object):
             if not self.has_published:
                 rospy.loginfo("[%s] Published the first image." %(self.node_name))
                 self.has_published = True
-
+    
             rospy.sleep(rospy.Duration.from_sec(0.001))
-
+            
     def setupParam(self,param_name,default_value):
         value = rospy.get_param(param_name,default_value)
         rospy.set_param(param_name,value) #Write to parameter server for transparancy

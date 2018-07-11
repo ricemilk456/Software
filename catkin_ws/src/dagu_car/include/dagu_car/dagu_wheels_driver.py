@@ -11,6 +11,11 @@
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 from math import fabs, floor
+from duckietown_msgs.msg import  Twist2DStamped, BoolStamped
+from sensor_msgs.msg import Joy
+import time
+from __builtin__ import True
+from Adafruit_PWM_Servo_Driver import PWM
 
 class DaguWheelsDriver:
     LEFT_MOTOR_MIN_PWM = 60        # Minimum speed for left motor  
@@ -26,7 +31,7 @@ class DaguWheelsDriver:
         self.rightMotor = self.motorhat.getMotor(2)
         self.verbose = verbose or debug
         self.debug = debug
-        
+        self.pwm = PWM(address=0x40,debug=False)
         self.left_sgn = 1.0
         if left_flip:
             self.left_sgn = -1.0
@@ -38,6 +43,8 @@ class DaguWheelsDriver:
         self.leftSpeed = 0.0
         self.rightSpeed = 0.0
         self.updatePWM()
+
+        
 
     def PWMvalue(self, v, minPWM, maxPWM):
         pwm = 0
@@ -54,22 +61,49 @@ class DaguWheelsDriver:
 
         if self.debug:
             print "v = %5.3f, u = %5.3f, vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (v, u, vl, vr, pwml, pwmr)
+      
+    
 
         if fabs(vl) < self.SPEED_TOLERANCE:
             leftMotorMode = Adafruit_MotorHAT.RELEASE
+            self.pwm.setPWM(0,4095,4095)
+            self.pwm.setPWM(1,4095,4095)
+            self.pwm.setPWM(2,4095,4095)
+            self.pwm.setPWM(3,4095,4095)
+            
         elif vl > 0:
             leftMotorMode = Adafruit_MotorHAT.FORWARD
+            
+            
         elif vl < 0: 
             leftMotorMode = Adafruit_MotorHAT.BACKWARD
+           
+           
 
         if fabs(vr) < self.SPEED_TOLERANCE:
             rightMotorMode = Adafruit_MotorHAT.RELEASE
             pwmr = 0
+            self.pwm.setPWM(0,4095,4095)
+            self.pwm.setPWM(1,4095,4095)
+            self.pwm.setPWM(2,4095,4095)
+            self.pwm.setPWM(3,4095,4095)
         elif vr > 0:
             rightMotorMode = Adafruit_MotorHAT.FORWARD
+            
+            
         elif vr < 0: 
             rightMotorMode = Adafruit_MotorHAT.BACKWARD
-
+            
+            
+        
+        if vl > 0 and vr < 0 :
+            self.pwm.setPWM(2,0,4095)
+        if vl < 0 and vr > 0 :
+            self.pwm.setPWM(3,0,4095)
+        if vl > 0 and vr > 0 :
+            self.pwm.setPWM(0,0,4095)
+        if vl < 0 and vr < 0 :
+            self.pwm.setPWM(1,0,4095)      
         self.leftMotor.setSpeed(pwml)
         self.leftMotor.run(leftMotorMode)
         self.rightMotor.setSpeed(pwmr)

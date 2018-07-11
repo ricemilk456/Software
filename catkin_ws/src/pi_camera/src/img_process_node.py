@@ -16,6 +16,9 @@ def cbCImg(msg):
 
     np_arr = np.fromstring(msg.data, np.uint8)
     image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+    
+
+    
     # Process image_np
 
     # Publish empty msg for easy hz testing

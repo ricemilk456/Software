@@ -54,11 +54,11 @@ class InverseKinematicsNode(object):
         self.switchFile = not self.switchFile
         if self.switchFile is True:
             qq = SetValue()
-            qq.value = 0.5
+            qq.value = 0.681237123
             self.cbSrvSetGain(qq)
         else:
             qq = SetValue()
-            qq.value = 1.0
+            qq.value = 0.798738271
             self.cbSrvSetGain(qq)
 
     def readParamFromFile(self):

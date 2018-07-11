@@ -143,6 +143,7 @@ class LineDetectorNode(object):
         # Decode from compressed image with OpenCV
         try:
             image_cv = image_cv_from_jpg(image_msg.data)
+            
         except ValueError as e:
             self.loginfo('Could not decode image: %s' % e)
             return

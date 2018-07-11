@@ -33,6 +33,7 @@ class DecoderNode(object):
         self.active = switch_msg.data
 
     def cbImg(self,msg):
+        
         if not self.active:
             return
         now = rospy.Time.now()
@@ -43,6 +44,7 @@ class DecoderNode(object):
         # time_start = time.time()
         np_arr = np.fromstring(msg.data, np.uint8)
         cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+       
         # time_1 = time.time()
         img_msg = self.bridge.cv2_to_imgmsg(cv_image, "bgr8")
         # time_2 = time.time()

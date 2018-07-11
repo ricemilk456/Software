@@ -1,5 +1,0 @@
-<launch>
-    <arg name="veh"/>
-    <node ns="$(arg veh)" pkg="socket_qwer" type="print.py" name="qwer_print_node" output="screen" required="true">
-    </node>
-</launch>				
