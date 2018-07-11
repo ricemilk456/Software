@@ -2,7 +2,7 @@
 import rospy
 import numpy as np
 import math
-from duckietown_msgs.msg import  Twist2DStamped, BoolStamped
+from duckietown_msgs.msg import  Twist2DStamped, BoolStamped, Num
 from sensor_msgs.msg import Joy
 import time
 from __builtin__ import True
@@ -44,10 +44,10 @@ class JoyMapper(object):
         self.pub_lcd_Y = rospy.Publisher("lcd_Y",BoolStamped,queue_size=1)
         self.pub_shoot = rospy.Publisher("shoot",BoolStamped,queue_size=1)
         self.pub_qrcode = rospy.Publisher("qrcode",BoolStamped,queue_size=1)
-#        self.pub_led = rospy.Publisher("led",BoolStamped,queue_size=1)
+        self.pub_led = rospy.Publisher("led",Num,queue_size=1)
         # Subscriptions
         self.sub_joy_ = rospy.Subscriber("joy", Joy, self.cbJoy, queue_size=1)
-#        self.sub_led = rospy.Subscriber("led", BoolStamped,self.cbLed, queue_size=1)
+        self.sub_led = rospy.Subscriber("led", Num,self.cbLed, queue_size=1)
         
         # timer
         # self.pub_timer = rospy.Timer(rospy.Duration.from_sec(self.pub_timestep),self.publishControl)
@@ -65,7 +65,7 @@ class JoyMapper(object):
     def cbLed(self, led_msg):
         led_msg = led_msg
         for i in range(10):
-            print led_msg.data
+            print led_msg.num
 
     def decrease_speed (self):
         self.v_gain = rospy.get_param("~speed_gain")
@@ -168,10 +168,13 @@ class JoyMapper(object):
             self.pub_avoidance.publish(avoidance_msg)
         elif (joy_msg.buttons[0] == 1): #X button
             self.lcd_off() 
+            led_msg = Num()
+            led_msg.num = 100
             shoot_msg = BoolStamped()
             shoot_msg.data = True
             lcd_state = BoolStamped()
             lcd_state.data = True
+            self.pub_led.publish(led_msg)
             self.pub_shoot.publish(shoot_msg)
             self.pub_lcd_X.publish(lcd_state)
         elif (joy_msg.buttons[1] == 1): # A button 

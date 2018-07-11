@@ -24,8 +24,8 @@ events: #Maps from subscribing topic to signal ids
     trigger: False
   led_on:
     topic: "led"
-    msg_type: "BoolStamped"
-    trigger: True
+    msg_type: "Num"
+    trigger: 100
   led_off:
     topic: "led"
     msg_type: "BoolStamped"
